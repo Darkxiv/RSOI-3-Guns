@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <form method="get" action="/"><input type="submit" value="Menu"></form>
+  <form method="get" action="/guns"><input type="submit" value="Guns"></form>
+{% if gun %}
+    <p>Your gun is {{ gun.name }}</p>
+    <p>Gun's type is {{ gun.type }}</p>
+    <p>Gun's cost is {{ gun.cost }}</p>
+  <form method="post" action="/update_gun/{{ gun.id }}">
+  <p><b>Update gun:</b></p>
+{% else %}
+  <form method="post" action="/create_gun">
+    <p><b>Create new gun:</b></p>
+{% endif %}
+  <p>Name:    <input type="text" name="name"> </p>
+  <p>Type:    <input type="text" name="type"> </p>
+  <p>Cost:    <input type="text" name="cost"> </p>
+{% if gun %}
+    <input type="submit" value="Update">
+    </form>
+<form method="post" action="/delete_gun/{{ gun.id }}"><input type="submit" value="Delete Gun"></form>
+{% else %}
+  <input type="submit" value="Create">
+    </form>
+{% endif %}
+  
+</body>
+</html>

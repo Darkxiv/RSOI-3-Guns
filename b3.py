@@ -30,16 +30,20 @@ class Weapon(db.Model):
     weapontype = db.relationship('WeaponType')
     cost = db.Column(db.Integer)
     
-class User(db.Model):
+class UserPas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), unique=True)
     pas = db.Column(db.String(40), unique=False)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(UserPas.id))
     mail = db.Column(db.String(60), unique=True)
     telnum = db.Column(db.String(20), unique=True)
 
 class Favorite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user_id = db.Column(db.Integer, db.ForeignKey(UserPas.id))
     gun_id = db.Column(db.Integer, db.ForeignKey(Weapon.id))
 
 

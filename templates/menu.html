@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+    <p>Welcome to menu! Choose your destiny! </p>
+  {% if user %}
+    <p>You are authenticated</p>
+    <form method="get" action="/register"><input type="submit" value="User Data"></form>  
+    <form method="get" action="/guns"><input type="submit" value="Guns"></form>
+    <form method="get" action="/types"><input type="submit" value="Types"></form>
+    <form method="get" action="/favorites"><input type="submit" value="Favorites"></form>
+  {% else %}
+    <p>You are not authenticated</p>
+    <form method="get" action="/login"><input type="submit" value="Login"></form>  
+    <form method="get" action="/register"><input type="submit" value="Register"></form>
+  {% endif %}
+  <form method="get" action="/exit"><input type="submit" value="Exit"></form>
+</body>
+</html>

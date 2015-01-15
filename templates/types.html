@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+   <style type="text/css">
+   TABLE {
+    width: 300px; /* Ширина таблицы */
+    border-top: 1px solid #000; /* Линия под верхним заголовком */
+    border-bottom: 1px solid #000; /* Линия под верхним заголовком */
+   }
+   TD, TH {
+    padding: 3px; /* Поля вокруг содержимого ячеек */
+   }
+   TH {
+    text-align: left; /* Выравнивание текста по левому краю */
+    border-top: 1px solid #000; /* Линия под верхним заголовком */
+    border-bottom: 1px solid #000; /* Линия под верхним заголовком */
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+   }
+  </style>
+</head>
+<body>
+  <form method="get" action="/"><input type="submit" value="Menu"></form>
+  <form method="get" action="/create_type"><input type="submit" value="Add new type"></form>
+{% if types %}
+<table cellspacing="0">
+        <tr>
+       <th>Name</th>
+       </tr>
+    {% for g in types %}
+       <tr>
+       <th><a href="{{ type_link }}/{{ g.id }}">{{ g.name }}</a></th>
+       </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>There is no any types</p>
+{% endif %}
+{% if pages %}
+<p>
+    {% for e in pages %}
+        <a href="{{ type_link }}?page={{ e }}">{{ e }}</a>
+    {% endfor %}
+</p>
+  <!-- GEN PAGE-LINK FOR -->
+{% endif %}
+</body>
+</html>

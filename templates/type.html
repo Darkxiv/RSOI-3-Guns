@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <form method="get" action="/"><input type="submit" value="Menu"></form>
+  <form method="get" action="/types"><input type="submit" value="Types"></form>
+{% if type %}
+    <p>Your type is {{ type.name }}</p>
+  <form method="post" action="/update_type/{{ type.id }}">
+  <p><b>Update gun:</b></p>
+{% else %}
+  <form method="post" action="/create_type">
+    <p><b>Create new type:</b></p>
+{% endif %}
+  <p>Name:    <input type="text" name="name"> </p>
+{% if type %}
+    <input type="submit" value="Update">
+    </form>
+<form method="post" action="/delete_type/{{ type.id }}"><input type="submit" value="Delete Type"></form>
+{% else %}
+  <input type="submit" value="Create">
+    </form>
+{% endif %}
+  
+</body>
+</html>

@@ -39,8 +39,8 @@ def get_session(sid):
     url = 'http://localhost:8002/api/rest_session?sid=' + sid
     return getJSONdata(url, 'GET')
 
-def reg_session(user_id):
-    url = 'http://localhost:8002/api/rest_session?user_id=' + str(user_id)
+def reg_session(username, pas):
+    url = 'http://localhost:8002/api/rest_session?username=' + username + '&pas=' + pas
     return getJSONdata(url, 'POST')
 
 def update_session(sid):
@@ -61,7 +61,7 @@ def rest_session():
             return jsonify(a)
     if request.method == 'POST':
         user_id = request.args.get('user_id', '')
-        a = reg_session(user_id)
+        a = reg_session(user_id, username, pas)
         if a:
             return jsonify(a)
     if request.method == 'PUT':
@@ -231,23 +231,23 @@ def show_gun(gun_id):
 
 
 def get_weapon_type(types_id):
-    url = 'http://localhost:8004/api/types/' + str(types_id)
+    url = 'http://localhost:8003/api/types/' + str(types_id)
     return getJSONdata(url, 'GET')
 
 def get_weapon_types(p, pp):
-    url = 'http://localhost:8004/api/types?pp=' + str(pp) + '&p=' + str(p)
+    url = 'http://localhost:8003/api/types?pp=' + str(pp) + '&p=' + str(p)
     return getJSONdata(url, 'GET')
 
 def reg_weapon_type(name):
-    url = 'http://localhost:8004/api/types?name=' + name
+    url = 'http://localhost:8003/api/types?name=' + name
     return getJSONdata(url, 'POST')
 
 def update_weapon_type(types_id, name):
-    url = 'http://localhost:8004/api/types/' + str(types_id) + '?name=' + name
+    url = 'http://localhost:8003/api/types/' + str(types_id) + '?name=' + name
     return getJSONdata(url, 'PUT')
 
 def delete_weapon_type(types_id):
-    url = 'http://localhost:8004/api/types/' + str(types_id)
+    url = 'http://localhost:8003/api/types/' + str(types_id)
     return getJSONdata(url, 'DELETE')
 
 
@@ -381,19 +381,14 @@ def show_favorite(fid):
 #   OTHER METHODS
 #
 
-def get_user_by_login(username, pas):
-    url = 'http://localhost:8006/api/user_by_login?username=' + username + '&pas=' + pas
-    return getJSONdata(url, 'GET')
-
 @app.route('/api/login')
 def login():
     username = request.args.get('username', '')
     pas = request.args.get('pas', '')
-    user = get_user_by_login(username, pas)
-    if user:
-        a = reg_session(user['id'])
+    a = reg_session(username, pas)
+    if a:
         return jsonify(a)
-    return jsonify(error='1')
+    return jsonify(error='0')
 
 def parse_weapon(w):
     wt = get_weapon_type(w['type'])

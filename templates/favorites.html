@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+   <style type="text/css">
+   TABLE {
+    width: 300px; /* Ширина таблицы */
+    border-top: 1px solid #000; /* Линия под верхним заголовком */
+    border-bottom: 1px solid #000; /* Линия под верхним заголовком */
+   }
+   TD, TH {
+    padding: 3px; /* Поля вокруг содержимого ячеек */
+   }
+   TH {
+    text-align: left; /* Выравнивание текста по левому краю */
+    border-top: 1px solid #000; /* Линия под верхним заголовком */
+    border-bottom: 1px solid #000; /* Линия под верхним заголовком */
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+   }
+  </style>
+</head>
+<body>
+  <form method="get" action="/"><input type="submit" value="Menu"></form>
+{% if favorites %}
+<table cellspacing="0">
+        <tr>
+       <th>Name</th> <th>Type</th> <th>Favorite</th>
+       </tr>
+    {% for f in favorites %}
+       <tr>
+       <th><a href="{{ gun_link }}/{{ f.gun_id }}">{{ f.gun_name }}</a></th> <th>{{ f.gun_type }}</th> <!-- BUTTON FOR DELETING FROM FAVORITE -->
+       <th>
+            <form method="post" action="/delete_favorite/{{ f.id }}?page={{ page }}&perpage={{ perpage }}"><input type="submit" value="Delete from favorites"></form>     
+        </th>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>There is no any favorites</p>
+{% endif %}
+{% if pages %}
+<p>
+    {% for e in pages %}
+        <a href="{{ favorite_link }}?page={{ e }}">{{ e }}</a>
+    {% endfor %}
+</p>
+{% endif %}
+</body>
+</html>

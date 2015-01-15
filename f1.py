@@ -134,6 +134,8 @@ def reg_user():
     mail = request.form.get('mail')
     url = 'http://localhost:8001/api/rest_user?username=' + username + '&pas=' + pas + '&telnum=' + telnum + '&mail=' + mail
     data = getJSONdata(url, 'POST')
+    if 'error' in data:
+        return render_template('msg.html', msg=error_handler(data))
     data, error = get_user_by_login(username, pas)
     if error:
         return render_template('msg.html', msg=data)

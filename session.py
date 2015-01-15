@@ -19,25 +19,24 @@ app.config.update({
 db = SQLAlchemy(app)
 
 SALT_LENGTH = 3
-SESSION_EXPIRES = 100
+SESSION_EXPIRES = 1000
 
-class User(db.Model):
+class UserPas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), unique=True)
     pas = db.Column(db.String(40), unique=False)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(UserPas.id))
     mail = db.Column(db.String(60), unique=True)
     telnum = db.Column(db.String(20), unique=True)
 
-
 class Access(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(
-        db.Integer, db.ForeignKey('user.id')
-    )
-    user = db.relationship('User')
+    user_id = db.Column(db.Integer, db.ForeignKey(UserPas.id))
     access_token = db.Column(db.String(255), unique=True)
     expires = db.Column(db.DateTime)
-
     
 #REST
 @app.route('/api/rest_session',  methods=['GET', 'PUT', 'POST', 'DELETE'])
@@ -56,8 +55,9 @@ def reg_session():
             a = Access.query.filter_by(access_token=sid).first()
             return jsonify(id=a.user_id, sid=a.access_token, expires=a.expires)
     if request.method == 'POST':
-        user_id = request.args.get('user_id', '')
-        u = User.query.filter_by(id=user_id).first()
+        username = request.args.get('username', '')
+        pas = request.args.get('pas', '')
+        u = UserPas.query.filter_by(username=username, pas=pas).first()
         if u:
             a = Access(user_id=u.id, access_token=gen_salt(SALT_LENGTH), expires=datetime.utcnow() + timedelta(seconds=SESSION_EXPIRES))
             db.session.add(a)

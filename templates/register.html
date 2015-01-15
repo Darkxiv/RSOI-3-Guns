@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <form method="get" action="/"><input type="submit" value="Menu"></form>
+{% if user %}
+    <p>You are authenticated</p>
+    <p>Your telephone number is {{ user.telnum }}</p>
+    <p>Your mail is {{ user.mail }}</p>
+  <form method="post" action="/register_update">
+  <p><b>Update user:</b></p>
+{% else %}
+  <form method="post" action="/register">
+    <p><b>Create new user:</b></p>
+  <p>Username:    <input type="text" name="username"> </p>
+  <p>Password:  <input type="password" name="pas"> </p>
+{% endif %}
+  <p>Telephone:    <input type="text" name="telnum"> </p>
+  <p>E-mail:    <input type="text" name="mail"> </p>
+  {% if user %}
+    <input type="submit" value="Update">
+    </form>
+<form method="post" action="/register_delete"><input type="submit" value="Delete User"></form>
+{% else %}
+  <input type="submit" value="Register">
+    </form>
+{% endif %}
+  
+</body>
+</html>
